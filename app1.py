@@ -173,7 +173,7 @@ if uploaded_files and submit_button:
                 # Display missing keywords as a list
                 st.subheader("Missing Keywords:")
                 st.write(", ".join(missing_keywords))
-                
+
                 # Provide suggestions for improving the resume
                 st.subheader("How to Improve Your Resume:")
                 st.write("1. Incorporate the missing keywords from the job description into your resume.")
