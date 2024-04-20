@@ -163,9 +163,9 @@ if uploaded_files and submit_button:
             
             # Determine whether the resume match is good or poor
             if match_percentage >= 70:
-                st.success(f"Your Resume Match is {match_percentage_str}😊 - This resume matches the job description!")
+                st.success(f"😊 - This resume matches the job description!")
             else:
-                st.error(f"Match {match_percentage_str}😭 - This resume does not match the job description.")
+                st.error(f"😭 - This resume does not match the job description.")
                 
                 # Get missing keywords from the job description and resume
                 missing_keywords = get_missing_keywords(job_description, resume_text)
