@@ -1,43 +1,94 @@
-https://www.youtube.com/watch?v=7lP7fune0Gw&t=908s
+# Resume Evaluation Tool
+
+This project is a web application that uses Google's Generative AI model (`Gemini-Pro`) to evaluate resumes against job descriptions and provide insights such as match percentage and missing keywords. The application is built using [Streamlit](https://streamlit.io/) for the frontend, allowing for easy interaction and visualization of results.
+
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Setup](#setup)
+- [Running the Application](#running-the-application)
+- [Usage](#usage)
+- [Parameters](#parameters)
+- [Contributing](#contributing)
+- [License](#license)
+
+## Prerequisites
+
+Before running the application, ensure you have the following installed:
+
+- Python 3.8 or higher
+- pip (Python package manager)
+- A Google API key with access to the Generative AI model (`Gemini-Pro`)
+- Access to a `.env` file containing your Google API key
+
+## Setup
+
+1. **Clone the Repository**
+
+    Clone the project repository from GitHub:
+
+    git clone <repository-url>
 
 
-app1.py --- Students code is there 
+    Navigate to the project directory:
 
-test--- sujal is working on new features on this file
-
-
-for running the code first download the requirement (pip install -r requirements.txt) and google api key is required for that (https://aistudio.google.com/app/apikey) then to run the streamlit code you just have to use (streamlit run recruiter.py)
-
-[Working of the Code is explained here in easy words-:]
-
-1. Imports: At the beginning of the code, we import the necessary libraries and modules:
-    - `Streamlit`: A Python library used for building interactive web applications.
-    - `Google. generativeai`: A library for accessing Google's generative AI   models.
-    - `os`: Provides functions for interacting with the operating system.
-    - `docx2txt`: A module for extracting text from DOCX files.
-    - `PyPDF2`: A library for working with PDF files.
-    - `dotenv`: Loads environment variables from a `.env` file.
-
-2. Environment Variables: We load environment variables, such as the Google API key, from a `.env` file.
-
-3. Generative AI Model Configuration: We configure the generative AI model for text generation. This includes setting parameters like temperature, top_p, top_k, and max_output_tokens.
-
-4. Safety Settings: We define safety settings for content generation to ensure that the generated content meets certain safety criteria.
-
-5. Function Definitions:
-    - `generate_response_from_gemini`: This function takes an input text and generates content using the generative AI model.
-    - `extract_text_from_pdf_file`: This function extracts text from a PDF file.
-    - `extract_text_from_docx_file`: This function extracts text from a DOCX file.
-
-6. **Prompt Template**: We define a prompt template for generating text. This template includes placeholders for the resume text and job description.
-
-7. **Streamlit App**:
-    - We initialize the Streamlit app.
-    - We create input fields for the job description and resume upload.
-    - When the user clicks the submit button, we extract text from the uploaded resume file and generate a response using the generative AI model.
-    - We extract the job description match percentage from the response and display it to the user.
-    - We display the ATS evaluation result along with the match percentage, highlighting it in green for a good match and red for a poor match.
-
-Overall, this code sets up a Streamlit web application that allows users to upload their resumes and a job description. It then evaluates the resume against the job description using a generative AI model and provides feedback on how well the resume matches the job description.
+    cd <project-directory>
 
 
+2. **Install Dependencies**
+
+    Install the required dependencies:
+
+    pip install -r requirements.txt
+
+
+3. **Configure API Key**
+
+    Create a `.env` file in the root directory with the following content:
+
+    GOOGLE_API_KEY=your-google-api-key
+
+    Replace `your-google-api-key` with your Google API key for the Generative AI model.
+
+    You can get you Google API key from [here](https://aistudio.google.com/app/apikey).
+
+4. **Load Custom CSS (Optional)**
+
+    If you have custom CSS for styling the application, you can place it in a file named `style.css` in the root directory.
+
+## Running the Application
+
+To run the application:
+
+1. Start the Streamlit application:
+
+    streamlit run app1.py
+
+    This will launch the application in your web browser.
+
+2. **Upload Resumes and Provide Job Descriptions**
+
+    - You can upload a resume file (PDF or DOCX format) using the file uploader.
+    - Provide a job description in the text area.
+
+3. **Submit and View Results**
+
+    - Click the "Submit" button to evaluate the resume against the job description.
+    - The application will display the match percentage and missing keywords.
+
+## Parameters
+
+The application uses the following parameters to control the generative AI model's output:
+
+- **Temperature**: Determines the randomness of the model's output. A value of 0.4 provides a balanced output.
+- **Top_p**: Sets the probability threshold for selecting the next token. Higher values increase diversity.
+- **Top_k**: Limits the number of candidate tokens considered for the next token. A value of 32 is used.
+- **Max_output_tokens**: Specifies the maximum length of the output text (4096 tokens).
+
+## Contributing
+
+If you wish to contribute to the project, please fork the repository and create a pull request with your changes.
+
+## License
+
+This project is open source, and you are welcome to use it according to the license specified in the repository.
