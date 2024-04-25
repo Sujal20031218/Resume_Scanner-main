@@ -3,10 +3,10 @@ import google.generativeai as genai
 import os
 import docx2txt
 import PyPDF2 as pdf
-from dotenv import load_dotenv
 import re
 
 # Load environment variables from a .env file
+from dotenv import load_dotenv
 load_dotenv()
 
 # Configure the generative AI model with the Google API key
@@ -26,49 +26,47 @@ safety_settings = [
     for category in ["HARASSMENT", "HATE_SPEECH", "SEXUALLY_EXPLICIT", "DANGEROUS_CONTENT"]
 ]
 
+# Load custom CSS
+with open('style.css') as f:
+    css = f.read()
+st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
+
+# Define function to generate content from generative AI model
 def generate_response_from_gemini(input_text):
-    # Create a GenerativeModel instance with 'gemini-pro' as the model type
     llm = genai.GenerativeModel(
         model_name="gemini-pro",
         generation_config=generation_config,
         safety_settings=safety_settings,
     )
-    # Generate content based on the input text
     output = llm.generate_content(input_text)
-    # Return the generated text
     return output.text
 
+# Function to extract text from a PDF file
 def extract_text_from_pdf_file(uploaded_file):
-    # Use PdfReader to read the text content from a PDF file
     pdf_reader = pdf.PdfReader(uploaded_file)
     text_content = ""
     for page in pdf_reader.pages:
         text_content += str(page.extract_text())
-    return text_content.lower()  # Convert text to lowercase
+    return text_content.lower()
 
+# Function to extract text from a DOCX file
 def extract_text_from_docx_file(uploaded_file):
-    # Use docx2txt to extract text from a DOCX file
-    return docx2txt.process(uploaded_file).lower()  # Convert text to lowercase
+    return docx2txt.process(uploaded_file).lower()
 
+# Tokenize text
 def tokenize_text(text):
-    """Tokenizes text into words and removes punctuation."""
-    text = re.sub(r'[^\w\s]', '', text)  # Remove punctuation
-    words = text.split()  # Tokenize text into words
+    text = re.sub(r'[^\w\s]', '', text)
+    words = text.split()
     return words
 
+# Calculate missing keywords
 def get_missing_keywords(job_description, resume_text):
-    """Get missing keywords from job description that are absent in resume."""
-    # Tokenize job description and resume text
     job_words = set(tokenize_text(job_description))
     resume_words = set(tokenize_text(resume_text))
-    
-    # Calculate missing keywords
-    missing_keywords = job_words - resume_words  # Difference between job and resume words
-    
-    # Return sorted list of missing keywords for readability
+    missing_keywords = job_words - resume_words
     return sorted(list(missing_keywords))
 
-# Prompt template
+# Prompt template for generating AI response
 input_prompt_template = """
 As an experienced Applicant Tracking System (ATS) analyst,
 with profound knowledge in technology, software engineering, data science, 
@@ -82,26 +80,19 @@ I want the response in one single string having the structure
 "Job Description Match":"%", "Missing Keywords":""
 """
 
-# Streamlit app
 # Initialize Streamlit app
-with open('./style.css') as f:
-    css = f.read()
-
-st.markdown(f'<style>{css}</style>', unsafe_allow_html=True)
-
 st.title("Get Your Resume Score 🚀")
-st.markdown('<style>h1{color: black; text-align: center;}</style>', unsafe_allow_html=True)
 
-# Text area with auto lowercase conversion for job description
+# Text area for job description input
 job_description = st.text_area("Paste the Job Description", height=300).lower()
 
 # File uploader for resumes, allowing one file at a time
-uploaded_files = st.file_uploader("Upload Your Resume", type=["pdf", "docx"], accept_multiple_files=True, help="Please upload a single PDF or DOCX file")
+uploaded_files = st.file_uploader("Upload Your Resume", type=["pdf", "docx"], accept_multiple_files=True)
 
 # Submit button
 submit_button = st.button("Submit")
 
-# Initialize `resume_text` variable
+# Initialize resume text variable
 resume_text = ""
 
 # If there are uploaded files and submit button is pressed
