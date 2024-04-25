@@ -167,13 +167,6 @@ if uploaded_files and submit_button:
             else:
                 st.error(f"😭 - This resume does not match the job description.")
                 
-                # Get missing keywords from the job description and resume
-                missing_keywords = get_missing_keywords(job_description, resume_text)
-                
-                # Display missing keywords as a list
-                st.subheader("Missing Keywords:")
-                st.write(", ".join(missing_keywords))
-                
                 # Provide suggestions for improving the resume
                 st.subheader("How to Improve Your Resume:")
                 st.write("1. Incorporate the missing keywords from the job description into your resume.")
